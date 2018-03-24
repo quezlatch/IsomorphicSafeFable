@@ -3,11 +3,8 @@ module Client
 open Elmish
 open Elmish.React
 
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
 open Fable.PowerPack.Fetch
 
-open Shared
 open Client.Types
 open Client.View
 

@@ -39,6 +39,10 @@ module.exports = {
       '/api/*': {
         target: 'http://localhost:' + port,
         changeOrigin: true
+      },
+      '/': {
+        target: 'http://localhost:' + port,
+        changeOrigin: true
       }
     },
     hot: true,

@@ -9,20 +9,40 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 
 open Giraffe
+open Giraffe.GiraffeViewEngine
 open Giraffe.Serialization.Json
 
 open Newtonsoft.Json
 
 open Shared
-
+open Client.Types
+open Client.View
 let clientPath = Path.Combine("..","Client") |> Path.GetFullPath
 let port = 8085us
 let assetsBaseUrl = "http://localhost:8080"
 
-let getInitCounter () : Task<Counter> = task { return 42 }
+let initState: Model = Some 42
+let getInitCounter () : Task<Model> = task { return initState }
 
+let htmlTemplate =
+  let content = "" //Fable.Helpers.ReactServer.renderToString(Client.View.view initState ignore)
+  html []
+    [ head [] 
+        [
+          meta [attr "description" "generated server side"]
+        ]
+      body []
+        [ div [_id "elmish-app"] [ rawText content ]
+          script []
+            [ rawText (sprintf """
+            var __INIT_STATE__ = %s
+            """ (toJson (toJson initState))) ] // call toJson twice to output json as js string in html
+          script [ _src (assetsBaseUrl + "/public/bundle.js") ] []
+        ]
+    ]
 let webApp : HttpHandler =
   choose [
+    route "/" >=> htmlView htmlTemplate
     route "/api/init" >=>
       fun next ctx ->
         task {
