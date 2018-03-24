@@ -3,20 +3,14 @@ module Client
 open Elmish
 open Elmish.React
 
-open Fable.PowerPack.Fetch
-
 open Client.Types
 open Client.View
+open Fable.Core.JsInterop
+open Fable.Import.Browser
 
 let init () = 
-  let model = None
-  let cmd =
-    Cmd.ofPromise 
-      (fetchAs<int> "/api/init") 
-      [] 
-      (Ok >> Init) 
-      (Error >> Init)
-  model, cmd
+  let model = ofJson<Model> !!window?__INIT_STATE__
+  model, Cmd.Empty
 
 let update msg (model : Model) =
   let model' =
@@ -37,7 +31,7 @@ Program.mkProgram init update view
 |> Program.withConsoleTrace
 |> Program.withHMR
 #endif
-|> Program.withReact "elmish-app"
+|> Program.withReactHydrate "elmish-app"
 #if DEBUG
 |> Program.withDebugger
 #endif

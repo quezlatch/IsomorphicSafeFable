@@ -20,7 +20,7 @@ let clientPath = Path.Combine("..","Client") |> Path.GetFullPath
 let port = 8085us
 let assetsBaseUrl = "http://localhost:8080"
 
-let initState: Model = Some 42
+let initState: Model = Some 142
 let getInitCounter () : Task<Model> = task { return initState }
 
 let htmlTemplate =
