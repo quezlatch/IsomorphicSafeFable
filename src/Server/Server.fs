@@ -1,36 +1,59 @@
-﻿open System.IO
-open System.Net
+﻿module Server.Main
 
-open Suave
-open Suave.Operators
+open System
+open System.IO
+open System.Threading.Tasks
+open Microsoft.AspNetCore
+open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.DependencyInjection
 
+open Giraffe
+open Giraffe.Serialization.Json
+
+open Newtonsoft.Json
 
 open Shared
 
-let clientPath = Path.Combine("..","Client") |> Path.GetFullPath 
+let clientPath = Path.Combine("..","Client") |> Path.GetFullPath
 let port = 8085us
+let assetsBaseUrl = "http://localhost:8080"
 
-let config =
-  { defaultConfig with 
-      homeFolder = Some clientPath
-      bindings = [ HttpBinding.create HTTP (IPAddress.Parse "0.0.0.0") port ] }
+let getInitCounter () : Task<Counter> = task { return 42 }
 
-let getInitCounter () : Async<Counter> = async { return 42 }
-
-let init : WebPart = 
-  Filters.path "/api/init" >=>
-  fun ctx ->
-    async {
-      let! counter = getInitCounter()
-      return! Successful.OK (string counter) ctx
-    }
-
-let webPart =
+let webApp : HttpHandler =
   choose [
-    init
-    Filters.path "/" >=> Files.browseFileHome "index.html"
-    Files.browseHome
-    RequestErrors.NOT_FOUND "Not found!"
+    route "/api/init" >=>
+      fun next ctx ->
+        task {
+          let! counter = getInitCounter()
+          return! Successful.OK counter next ctx
+        }
   ]
 
-startWebServer config webPart
+let configureApp  (app : IApplicationBuilder) =
+  app.UseStaticFiles()
+     .UseGiraffe webApp
+
+
+let configureServices (services : IServiceCollection) =
+    services.AddGiraffe() |> ignore
+    // Configure JsonSerializer to use Fable.JsonConverter
+    let fableJsonSettings = JsonSerializerSettings()
+    fableJsonSettings.Converters.Add(Fable.JsonConverter())
+
+    services.AddSingleton<IJsonSerializer>(
+        NewtonsoftJsonSerializer(fableJsonSettings)) |> ignore
+
+[<EntryPoint>]
+let main argv =
+  WebHost
+    .CreateDefaultBuilder()
+    .UseWebRoot(clientPath)
+    .UseContentRoot(clientPath)
+    .Configure(Action<IApplicationBuilder> configureApp)
+    .ConfigureServices(configureServices)
+    .UseUrls("http://0.0.0.0:" + port.ToString() + "/")
+    .Build()
+    .Run()
+  0

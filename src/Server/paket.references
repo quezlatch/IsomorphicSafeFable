@@ -1,4 +1,7 @@
 group Server
-  FSharp.Core
-  Suave
-  Microsoft.DotNet.Watcher.Tools
+FSharp.Core
+Microsoft.DotNet.Watcher.Tools
+Giraffe
+Microsoft.AspNetCore.StaticFiles
+Fable.JsonConverter
+Microsoft.AspNetCore

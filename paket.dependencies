@@ -1,8 +1,11 @@
 group Server
   source https://api.nuget.org/v3/index.json
 
+nuget Fable.JsonConverter
   nuget FSharp.Core
-  nuget Suave
+nuget Giraffe
+nuget Microsoft.AspNetCore
+nuget Microsoft.AspNetCore.StaticFiles
 
   clitool Microsoft.DotNet.Watcher.Tools
 
