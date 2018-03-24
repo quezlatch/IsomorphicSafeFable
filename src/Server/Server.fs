@@ -24,7 +24,7 @@ let initState: Model = Some 142
 let getInitCounter () : Task<Model> = task { return initState }
 
 let htmlTemplate =
-  let content = Fable.Helpers.ReactServer.renderToString (Client.View.view initState ignore)
+  let content = Fable.Helpers.ReactServer.renderToString (view initState ignore)
   html []
     [ head [] 
         [
@@ -65,7 +65,7 @@ let configureServices (services : IServiceCollection) =
         NewtonsoftJsonSerializer(fableJsonSettings)) |> ignore
 
 [<EntryPoint>]
-let main argv =
+let main _ =
   WebHost
     .CreateDefaultBuilder()
     .UseWebRoot(clientPath)
