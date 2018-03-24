@@ -32,7 +32,7 @@ let show = function
 
 let view (model:Model) dispatch =
   div []
-    [ h1 [] [ str "SAFE Template" ]
+    [ h1 [] [ str "Mikey Play" ]
       p  [] [ str "The initial counter is fetched from server" ]
       p  [] [ str "Press buttons to manipulate counter:" ]
       button [ OnClick (fun _ -> dispatch Decrement) ] [ str "-" ]
