@@ -7,5 +7,8 @@
     <Compile Include="..\Shared\Shared.fs" />
     <Compile Include="Client.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.fsproj" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
