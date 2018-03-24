@@ -14,7 +14,6 @@ open Giraffe.Serialization.Json
 
 open Newtonsoft.Json
 
-open Shared
 open Client.Types
 open Client.View
 let clientPath = Path.Combine("..","Client") |> Path.GetFullPath
@@ -25,7 +24,7 @@ let initState: Model = Some 42
 let getInitCounter () : Task<Model> = task { return initState }
 
 let htmlTemplate =
-  let content = "" //Fable.Helpers.ReactServer.renderToString(Client.View.view initState ignore)
+  let content = Fable.Helpers.ReactServer.renderToString (Client.View.view initState ignore)
   html []
     [ head [] 
         [

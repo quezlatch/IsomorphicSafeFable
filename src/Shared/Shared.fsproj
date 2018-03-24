@@ -4,8 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="../../packages/client/Fable.React/fable/Fable.Helpers.React.fs" />
-    <Compile Include="../../packages/client/Fable.React/fable/Fable.Import.React.fs" />
     <Compile Include="Shared.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="View.fs" />
