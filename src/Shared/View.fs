@@ -22,7 +22,7 @@ let safeComponents =
     |> span [ ]
 
   p [ ]
-    [ strong [] [ str "Mikey Play" ]
+    [ strong [] [ str "Isomorphic SAFE Fable" ]
       str " powered by: "
       components ]
 
@@ -32,7 +32,7 @@ let show = function
 
 let view (model:Model) dispatch =
   div []
-    [ h1 [] [ str "Mikey Play" ]
+    [ h1 [] [ str "Isomorphic SAFE Fable" ]
       p  [] [ str "The initial counter is fetched from server" ]
       p  [] [ str "Press buttons to manipulate counter:" ]
       button [ OnClick (fun _ -> dispatch Decrement) ] [ str "-" ]
