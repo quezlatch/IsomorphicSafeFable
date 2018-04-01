@@ -33,7 +33,7 @@ let show = function
 let view (model:Model) dispatch =
   div []
     [ h1 [] [ str "Isomorphic SAFE Fable" ]
-      p  [] [ str "The initial counter is fetched from server" ]
+      p  [] [ str "The initial page is rendered on server with counter and everything" ]
       p  [] [ str "Press buttons to manipulate counter:" ]
       button [ OnClick (fun _ -> dispatch Decrement) ] [ str "-" ]
       div [] [ str (show model) ]
